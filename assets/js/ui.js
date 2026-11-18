@@ -50,7 +50,7 @@
         window.requestAnimationFrame(update);
       }
     }, { passive: true });
-    update();
+    window.requestAnimationFrame(update);
   };
 
   if (document.readyState === 'loading') {

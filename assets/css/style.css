@@ -257,3 +257,12 @@ html{scroll-padding-top:var(--header-h)}
 @keyframes form-thanks-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.form-status.is-ok{animation:none}}
 #contact-form button[disabled]{opacity:.65;cursor:progress}
+
+/* Kropki opinii: pole dotyku 24×24 px przy tej samej kropce 7 px; aktywna kropka rozciąga się przez transform (płynna animacja) */
+.testimonial-dots{gap:0;margin-top:20px}
+.testimonial-dots .testimonial-dot,.testimonial-dots .testimonial-dot[aria-current="true"]{position:relative;box-sizing:border-box;width:24px;height:24px;min-width:0;padding:0;background:none;border-radius:0}
+.testimonial-dots .testimonial-dot::before{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:20px;background:#d6c9bb;transition:transform .25s ease,background-color .25s ease}
+.testimonial-dots .testimonial-dot[aria-current="true"]::before{transform:scaleX(3.15);background:#a98b6f}
+.testimonial-dots .testimonial-dot:focus-visible{outline:2px solid var(--gold);outline-offset:-2px;border-radius:12px}
+@media(max-width:600px){.testimonial-dots{display:grid;grid-template-columns:repeat(8,24px);justify-content:center}}
+@media(prefers-reduced-motion:reduce){.testimonial-dots .testimonial-dot::before{transition:none}}

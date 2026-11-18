@@ -27,6 +27,12 @@ assets/img/   zdjęcia webp w kilku szerokościach (srcset)
 - Film na YouTube: „Nieobiecane Dni (Official Video)”, id `71Kitdyg4pE`.
 - Formularz kontaktowy wysyła zapytanie przez Formspree (`assets/js/contact.js`, `FORMSPREE_ID = xnpdvoqj`) na e-mail Martiny, z polem-pułapką `_gotcha` na boty. Pusty `FORMSPREE_ID` przełącza z powrotem na `mailto:`. Po udanej wysyłce strona emituje zdarzenie `mb:lead` (pod piksel).
 
+## Szybkość strony
+
+- Style strony głównej są wstawione bezpośrednio w `index.html` (między `<!-- css:start -->` i `<!-- css:end -->`), żeby nie blokowały pierwszego wyświetlenia. Po każdej zmianie w `assets/css/fonts.css`, `style.css` albo `consent.css` uruchom `python narzedzia/wstaw-css.py`. Podstrony z dokumentami ładują te pliki normalnie.
+- Główne fonty (DM Sans, Cormorant Garamond, Italiana) są wczytywane z wyprzedzeniem (`preload`).
+- Zdjęcia pionowe mają wersje 600, 700, 900 i 1200 px, telefon pobiera najbliższy rozmiar.
+
 ## Przed publikacją
 
 1. Uzupełnij adres do korespondencji (żółte pole `<mark class="todo">` w regulaminie, polityce prywatności i klauzuli RODO), potem usuń znacznik. Martina występuje jako osoba fizyczna bez działalności gospodarczej, więc bez NIP i biura rachunkowego.
