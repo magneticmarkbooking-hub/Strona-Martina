@@ -29,8 +29,8 @@ assets/img/   zdjęcia webp w kilku szerokościach (srcset)
 
 ## Przed publikacją
 
-1. Uzupełnij pola podświetlone na żółto (`<mark class="todo">`) w regulaminie, polityce prywatności, polityce cookies i klauzuli RODO: adres, NIP (jeśli jest działalność), adres strony, data publikacji, hosting, biuro rachunkowe, autor zdjęć. Potem usuń znaczniki `<mark class="todo">`.
-2. Po wybraniu domeny dodaj `sitemap.xml` i znaczniki Open Graph (podgląd linku na Facebooku i Messengerze).
+1. Uzupełnij adres do korespondencji (żółte pole `<mark class="todo">` w regulaminie, polityce prywatności i klauzuli RODO), potem usuń znacznik. Martina występuje jako osoba fizyczna bez działalności gospodarczej, więc bez NIP i biura rachunkowego.
+2. Domena: `martinabernacka.com`. Canonical, Open Graph (`assets/img/og-image.jpg` 1200×630), dane strukturalne Person, `sitemap.xml` i `robots.txt` już wskazują na tę domenę.
 
 ## Podgląd lokalny
 
@@ -45,5 +45,5 @@ Nie otwieraj `index.html` dwuklikiem z dysku (`file:///`). YouTube blokuje wtedy
 
 1. Repozytorium: Settings, Pages, Source: `Deploy from a branch`, branch `main`, folder `/ (root)`.
 2. Strona będzie pod `https://magneticmarkbooking-hub.github.io/Strona-Martina/`. Plik `.nojekyll` wyłącza przetwarzanie przez Jekyll.
-3. Własna domena: plik `CNAME` z nazwą domeny w katalogu głównym, rekordy DNS u rejestratora (4 rekordy A na adresy GitHub Pages albo CNAME na `magneticmarkbooking-hub.github.io`), potem „Enforce HTTPS”.
+3. Podpięcie `martinabernacka.com`: najpierw DNS u rejestratora (rekordy A dla `@` na 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 oraz CNAME `www` na `magneticmarkbooking-hub.github.io`), potem w Settings, Pages, Custom domain wpisz `martinabernacka.com` (GitHub doda plik `CNAME`), a po wystawieniu certyfikatu zaznacz „Enforce HTTPS”. Pliku `CNAME` nie dodawaj wcześniej, bo adres github.io zacznie przekierowywać na domenę, która jeszcze nie działa.
 4. Jeśli strona trafi na GitHub Pages, w polityce prywatności hostingiem jest GitHub, Inc.
