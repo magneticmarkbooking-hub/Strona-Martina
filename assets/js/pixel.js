@@ -1,4 +1,6 @@
 /* Meta Pixel i zdarzenia strony.
+   Zdarzenia wyzwalają tylko świadome działania: kliknięcia, otwarcie zdjęcia, start filmu, wysyłka formularza.
+   Samo przewijanie strony niczego nie wysyła (poza PageView przy wejściu).
    Piksel ładuje się dopiero po zgodzie na marketing (zdarzenie 'mb:consent' z consent.js).
    Zdarzenia sprzed decyzji czekają w kolejce: po zgodzie są wysyłane, po odmowie kasowane.
    Do Meta nie trafiają dane osobowe: tylko nazwy zdarzeń, sekcji, usług i serwisów. */
@@ -6,7 +8,6 @@
   'use strict';
 
   const PIXEL_ID = '1469005161262582';
-  const SECTION_VISIBLE = 0.35; /* część sekcji na ekranie, od której liczymy obejrzenie */
 
   let allowed = null; /* null: brak decyzji, true: zgoda, false: odmowa */
   const queue = [];
@@ -61,18 +62,6 @@
 
   /* ---------- Zdarzenia ---------- */
 
-  const watchSection = (selector, fn) => {
-    const el = document.querySelector(selector);
-    if (!el || !('IntersectionObserver' in window)) return;
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((en) => en.isIntersecting)) {
-        io.disconnect();
-        fn();
-      }
-    }, { threshold: SECTION_VISIBLE });
-    io.observe(el);
-  };
-
   const SOCIAL = [
     ['instagram.com', 'Instagram'],
     ['tiktok.com', 'TikTok'],
@@ -86,18 +75,19 @@
   };
 
   const init = () => {
-    /* Obejrzenie oferty, galerii, filmów i opinii. */
-    watchSection('#oferta', () => track('ViewContent', { content_name: 'Oferta', content_category: 'Oprawa muzyczna i koncerty' }));
-    watchSection('#galeria', () => trackCustom('WidzialGalerie'));
-    watchSection('#koncerty', () => trackCustom('WidzialFilmy'));
-    watchSection('#opinie', () => trackCustom('WidzialOpinie'));
-    watchSection('#kontakt', () => trackCustom('WidzialKontakt'));
+    const SECTION_NAMES = { '#o-mnie': 'O mnie', '#oferta': 'Oferta', '#galeria': 'Galeria', '#koncerty': 'Social media', '#opinie': 'Opinie', '#kontakt': 'Kontakt' };
 
-    /* Kliknięcia: kafelki oferty, przycisk z góry strony, e-mail, profile społecznościowe. */
+    /* Opinie: kliknięcie strzałki lub kropki (raz na wizytę). */
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.testimonial-arrow, .testimonial-dot')) once('opinie', () => trackCustom('PrzegladOpinii'));
+    });
+
+    /* Kliknięcia linków: oferta, menu, e-mail, profile społecznościowe. */
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a');
       if (!link) return;
       const href = link.getAttribute('href') || '';
+      const hash = href.includes('#') ? href.slice(href.indexOf('#')) : '';
 
       const offer = link.closest('.offer');
       if (offer) {
@@ -106,7 +96,12 @@
         return;
       }
       if (link.classList.contains('hero-editorial-link')) {
-        trackCustom('PoznajOferte');
+        track('ViewContent', { content_name: 'Oferta', content_category: 'Oprawa muzyczna i koncerty' });
+        return;
+      }
+      if (link.closest('#nav, .site-footer nav') && SECTION_NAMES[hash]) {
+        if (hash === '#oferta') track('ViewContent', { content_name: 'Oferta', content_category: 'Oprawa muzyczna i koncerty' });
+        else trackCustom('KlikMenu', { sekcja: SECTION_NAMES[hash], miejsce: link.closest('#nav') ? 'menu' : 'stopka' });
         return;
       }
       if (href.startsWith('mailto:')) {
