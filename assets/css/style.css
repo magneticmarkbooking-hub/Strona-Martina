@@ -246,9 +246,14 @@ html{scroll-padding-top:var(--header-h)}
 
 /* Formularz: pole-pułapka na boty i komunikat po wysyłce */
 .form-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.form-status{margin:12px 0 0;font-size:.9rem;line-height:1.6}
+.form-status{margin:26px 0 0;outline:none}
 .form-status:empty{display:none}
-.form-status.is-ok{color:#3f5b3a}
-.form-status.is-error{color:#8a3b2e}
+.form-status.is-ok{padding:26px 0 4px;border-top:1px solid #c9b9a7;animation:form-thanks-in .5s ease}
+.form-status .eyebrow{display:block;margin-bottom:10px}
+.form-thanks-title{margin:0 0 8px;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2rem,3vw,2.6rem);font-weight:400;line-height:1.1;color:var(--ink)}
+.form-thanks-text{margin:0;font-size:.95rem;line-height:1.7;color:#675d54}
+.form-status.is-error .form-thanks-text{color:#8a3b2e}
 .form-status a{text-decoration:underline;text-underline-offset:3px}
+@keyframes form-thanks-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.form-status.is-ok{animation:none}}
 #contact-form button[disabled]{opacity:.65;cursor:progress}

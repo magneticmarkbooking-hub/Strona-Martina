@@ -38,6 +38,7 @@
       opener = trigger || null;
       show(i);
       lb.classList.add('open');
+      document.dispatchEvent(new CustomEvent('mb:gallery-open', { detail: { index } }));
       document.documentElement.classList.add('lb-open');
       btnClose.focus({ preventScroll: true });
     };

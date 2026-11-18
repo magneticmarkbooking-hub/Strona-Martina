@@ -1,11 +1,12 @@
-/* Zgoda na treści zewnętrzne (Instagram, YouTube).
+/* Zgoda na treści zewnętrzne (Instagram, YouTube) i marketing (Meta Pixel).
    Pasek na całą szerokość przy pierwszej wizycie, okno ustawień i pływający przycisk cookies w lewym dolnym rogu.
-   Filmy wczytują się dopiero po kliknięciu, czyli po decyzji odwiedzającego. */
+   Filmy i piksel wczytują się dopiero po kliknięciu, czyli po decyzji odwiedzającego.
+   Każda decyzja (i stan zapisany przy wejściu) idzie zdarzeniem 'mb:consent' do pixel.js. */
 (() => {
   'use strict';
 
-  const STORAGE_KEY = 'mb-consent-v3';
-  const SERVICES = ['instagram', 'youtube'];
+  const STORAGE_KEY = 'mb-consent-v4'; /* v4: doszedł marketing, stare zgody go nie obejmują */
+  const SERVICES = ['instagram', 'youtube', 'marketing'];
   const MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000; /* po roku pytamy ponownie */
   const DEFAULT_ON = true; /* przełączniki w ustawieniach domyślnie włączone (decyzja Marka) */
 
@@ -23,7 +24,7 @@
   };
 
   const writeConsent = (choice) => {
-    const data = { instagram: !!choice.instagram, youtube: !!choice.youtube, ts: new Date().toISOString() };
+    const data = { instagram: !!choice.instagram, youtube: !!choice.youtube, marketing: !!choice.marketing, ts: new Date().toISOString() };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (err) {
@@ -49,7 +50,14 @@
     });
   };
 
-  const isLoaded = (service) => [...embedsOf(service)].some((f) => f.getAttribute('src'));
+  const isLoaded = (service) => {
+    if (service === 'marketing') return !!window.mbPixelLoaded;
+    return [...embedsOf(service)].some((f) => f.getAttribute('src'));
+  };
+
+  const announce = () => {
+    document.dispatchEvent(new CustomEvent('mb:consent', { detail: { ...current } }));
+  };
 
   /* ---------- Szablony ---------- */
 
@@ -60,7 +68,7 @@
       <div class="cc-bar-text">
         <p class="cc-eyebrow">Prywatność</p>
         <h2 class="cc-bar-title" id="cc-bar-title">Pliki cookies</h2>
-        <p>Strona sama nie śledzi odwiedzających. Rolki z Instagrama i film z YouTube zapisują pliki cookies tych serwisów. Wybierz, czy je pokazać. Szczegóły w <a href="polityka-cookies.html">polityce cookies</a>.</p>
+        <p>Za Twoją zgodą strona pokazuje rolki z Instagrama i film z YouTube oraz korzysta z Meta Pixel, żeby mierzyć skuteczność reklam. Te serwisy zapisują swoje pliki cookies. Szczegóły w <a href="polityka-cookies.html">polityce cookies</a>.</p>
       </div>
       <div class="cc-bar-actions">
         <button type="button" class="cc-btn cc-btn-solid" data-cc="accept">Akceptuję wszystkie</button>
@@ -79,6 +87,7 @@
         <label class="cc-option"><span><strong>Niezbędne</strong><small>Zapamiętanie Twojego wyboru. Zawsze włączone.</small></span><input type="checkbox" checked disabled/><i aria-hidden="true"></i></label>
         <label class="cc-option"><span><strong>Instagram</strong><small>Rolki w sekcji „Zobacz i posłuchaj”. Pliki cookies Meta.</small></span><input type="checkbox" data-cc-service="instagram"/><i aria-hidden="true"></i></label>
         <label class="cc-option"><span><strong>YouTube</strong><small>Teledysk na dole sekcji. Pliki cookies Google.</small></span><input type="checkbox" data-cc-service="youtube"/><i aria-hidden="true"></i></label>
+        <label class="cc-option"><span><strong>Marketing</strong><small>Meta Pixel: pomiar skuteczności reklam na Facebooku i Instagramie. Pliki cookies Meta.</small></span><input type="checkbox" data-cc-service="marketing"/><i aria-hidden="true"></i></label>
       </div>
       <div class="cc-actions">
         <button type="button" class="cc-btn" data-cc="save">Zapisz wybór</button>
@@ -156,6 +165,7 @@
       return;
     }
     SERVICES.forEach((s) => { if (current[s]) loadEmbeds(s); });
+    announce();
   };
 
   const choiceFromToggles = () => {
@@ -242,6 +252,7 @@
 
     if (current) {
       SERVICES.forEach((s) => { if (current[s]) loadEmbeds(s); });
+      announce();
     } else {
       showBar();
     }

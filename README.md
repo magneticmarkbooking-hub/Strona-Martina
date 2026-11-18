@@ -12,7 +12,7 @@ rodo.html                  skrócona klauzula informacyjna RODO
 polityka-cookies.html      polityka cookies
 favicon.svg, robots.txt
 assets/css/   style.css (wygląd strony i stopki), fonts.css, legal.css (dokumenty), consent.css (cookies, przycisk do góry)
-assets/js/    main.js (menu, opinie), contact.js (formularz przez Formspree), gallery.js (podgląd zdjęć ze strzałkami, klawiaturą i przesuwaniem palcem), ui.js (przycisk do góry, rok), consent.js (zgoda na filmy)
+assets/js/    main.js (menu, opinie), contact.js (formularz przez Formspree), gallery.js (podgląd zdjęć ze strzałkami, klawiaturą i przesuwaniem palcem), ui.js (przycisk do góry, rok), consent.js (zgoda na filmy i marketing), pixel.js (Meta Pixel i zdarzenia)
 assets/fonts/ DM Sans, Cormorant Garamond, Italiana (woff2, licencja SIL OFL 1.1, pliki OFL-*.txt)
 assets/img/   zdjęcia webp w kilku szerokościach (srcset)
 ```
@@ -20,10 +20,10 @@ assets/img/   zdjęcia webp w kilku szerokościach (srcset)
 ## Prywatność
 
 - Czcionki są na serwerze strony, strona nie łączy się z Google Fonts.
-- Strona nie ma analityki ani pikseli reklamowych.
+- Meta Pixel `1469005161262582` (`assets/js/pixel.js`) ładuje się tylko po zgodzie na marketing. Zdarzenia: PageView, ViewContent (Oferta), Lead (udana wysyłka formularza, parametr: rodzaj wydarzenia), Contact (klik e-mail), własne: ZapytajOTermin (usługa), PoznajOferte, StartFormularza, WidzialGalerie, WidzialFilmy, WidzialOpinie, WidzialKontakt, Galeria (otwarcie zdjęcia), OdtworzenieFilmu (YouTube, Instagram), KlikSocial (serwis, miejsce). Zdarzenia sprzed decyzji czekają w kolejce, po odmowie są kasowane. Bez danych osobowych w parametrach.
 - Filmy z Instagrama i YouTube (`iframe.consent-embed` z `data-src` i `data-service`) wczytują się dopiero po zgodzie. Zgodę można dać na każdy serwis osobno.
-- Przy pierwszej wizycie pasek na całą szerokość na dole: „Akceptuję wszystkie”, „Tylko niezbędne”, „Ustawienia”. W ustawieniach przełączniki Instagram i YouTube są domyślnie włączone.
-- Decyzja jest w localStorage pod kluczem `mb-consent-v3`, ważna rok. Okrągły przycisk w lewym dolnym rogu i link „Ustawienia cookies” w stopce otwierają ustawienia ponownie. Wycofanie zgody przeładowuje stronę i usuwa filmy.
+- Przy pierwszej wizycie pasek na całą szerokość na dole: „Akceptuję wszystkie”, „Tylko niezbędne”, „Ustawienia”. W ustawieniach przełączniki Instagram, YouTube i Marketing są domyślnie włączone.
+- Decyzja jest w localStorage pod kluczem `mb-consent-v4`, ważna rok. Okrągły przycisk w lewym dolnym rogu i link „Ustawienia cookies” w stopce otwierają ustawienia ponownie. Wycofanie zgody przeładowuje stronę i usuwa filmy.
 - Film na YouTube: „Nieobiecane Dni (Official Video)”, id `71Kitdyg4pE`.
 - Formularz kontaktowy wysyła zapytanie przez Formspree (`assets/js/contact.js`, `FORMSPREE_ID = xnpdvoqj`) na e-mail Martiny, z polem-pułapką `_gotcha` na boty. Pusty `FORMSPREE_ID` przełącza z powrotem na `mailto:`. Po udanej wysyłce strona emituje zdarzenie `mb:lead` (pod piksel).
 

@@ -11,7 +11,7 @@
   const TEXT = {
     sending: 'Wysyłanie…',
     send: 'Wyślij zapytanie',
-    ok: 'Dziękuję! Wiadomość dotarła, odezwę się najszybciej, jak to możliwe.',
+    ok: 'Odezwę się najszybciej, jak to możliwe, na adres e-mail podany w formularzu.',
     error: 'Nie udało się wysłać wiadomości. Spróbuj ponownie albo napisz bezpośrednio na ',
     noteMail: 'Po kliknięciu otworzy się wiadomość w Twojej poczcie. Wysyłka następuje dopiero po jej zatwierdzeniu.',
     noteDirect: 'Wiadomość trafi bezpośrednio na mój adres e-mail. Odpowiem na adres, który podasz.'
@@ -43,13 +43,33 @@
 
     const showStatus = (kind, text, withEmail) => {
       status.className = `form-status is-${kind}`;
-      status.textContent = text;
-      if (withEmail) {
-        const link = document.createElement('a');
-        link.href = `mailto:${EMAIL}`;
-        link.textContent = EMAIL;
-        status.append(link, '.');
+      status.textContent = '';
+      if (kind === 'ok') {
+        const eyebrow = document.createElement('span');
+        eyebrow.className = 'eyebrow';
+        eyebrow.textContent = 'Wiadomość wysłana';
+        const title = document.createElement('p');
+        title.className = 'form-thanks-title';
+        title.textContent = 'Dziękuję za wiadomość!';
+        const body = document.createElement('p');
+        body.className = 'form-thanks-text';
+        body.textContent = text;
+        status.append(eyebrow, title, body);
+      } else {
+        const body = document.createElement('p');
+        body.className = 'form-thanks-text';
+        body.textContent = text;
+        if (withEmail) {
+          const link = document.createElement('a');
+          link.href = `mailto:${EMAIL}`;
+          link.textContent = EMAIL;
+          body.append(link, '.');
+        }
+        status.append(body);
       }
+      const r = status.getBoundingClientRect();
+      if (r.bottom > window.innerHeight || r.top < 0) status.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      status.focus({ preventScroll: true });
     };
 
     const resetEventType = () => {
