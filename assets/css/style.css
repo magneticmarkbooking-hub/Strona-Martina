@@ -266,3 +266,15 @@ html{scroll-padding-top:var(--header-h)}
 .testimonial-dots .testimonial-dot:focus-visible{outline:2px solid var(--gold);outline-offset:-2px;border-radius:12px}
 @media(max-width:600px){.testimonial-dots{display:grid;grid-template-columns:repeat(8,24px);justify-content:center}}
 @media(prefers-reduced-motion:reduce){.testimonial-dots .testimonial-dot::before{transition:none}}
+
+/* Stopka na telefonie: linki w wierszach zamiast kolumny, mniej wysokości */
+@media(max-width:560px){
+  .footer-top{grid-template-columns:1fr;gap:22px;padding:44px 6% 24px}
+  .site-footer .brand{font-size:1.65rem}
+  .footer-motto{margin-top:8px;font-size:1.12rem;max-width:none}
+  .site-footer .footer-col,.site-footer nav.footer-col{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:20px;row-gap:0}
+  .footer-head{flex-basis:100%;margin:0 0 2px}
+  .site-footer .footer-col a,.site-footer nav.footer-col a{padding:6px 0;font-size:.84rem}
+  .footer-bottom{padding:16px 6% 78px;gap:4px}
+  .footer-bottom p{font-size:.7rem}
+}
