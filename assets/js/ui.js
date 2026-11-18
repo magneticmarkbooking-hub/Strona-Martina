@@ -4,6 +4,24 @@
 
   const SHOW_AFTER_PX = 600;
 
+  /* Wejście z innej podstrony na adres z kotwicą (np. index.html#kontakt):
+     po wczytaniu fontów i zdjęć układ się zmienia, więc ustawiamy sekcję jeszcze raz pod nagłówkiem. */
+  const alignHashTarget = () => {
+    if (!window.location.hash) return;
+    let target = null;
+    try {
+      target = document.querySelector(decodeURIComponent(window.location.hash));
+    } catch (err) {
+      return;
+    }
+    if (target) target.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
+
+  window.addEventListener('load', () => {
+    const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+    fontsReady.then(alignHashTarget);
+  });
+
   const init = () => {
     document.querySelectorAll('[data-year]').forEach((el) => {
       el.textContent = String(new Date().getFullYear());

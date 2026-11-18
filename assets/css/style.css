@@ -177,8 +177,6 @@ input[type=date]::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 #lightbox button{width:48px;height:48px;display:grid;place-items:center}
 @media(max-width:900px){
-  header{position:sticky;top:0;z-index:40;box-shadow:0 1px 0 var(--line)}
-  [id]{scroll-margin-top:76px}
   .menu{width:44px;height:44px;display:grid;place-items:center;margin-right:-10px;color:var(--ink);cursor:pointer}
   header nav{gap:0;padding:12px 6% 22px;box-shadow:0 18px 30px rgba(48,42,38,.12);border-top:1px solid var(--line)}
   header nav a{display:block;width:100%;padding:14px 0;font-size:.78rem;border-bottom:1px solid var(--line)}
@@ -239,3 +237,9 @@ html.lb-open{overflow:hidden}
 }
 #lightbox{z-index:90;background:rgba(15,13,12,.97)}
 html.lb-open .cc-fab,html.lb-open .to-top{visibility:hidden}
+
+/* Nagłówek przyklejony na każdej szerokości; linki do sekcji lądują tuż pod nim */
+:root{--header-h:88px}
+@media(max-width:900px){:root{--header-h:76px}}
+header{position:sticky;top:0;z-index:40;box-shadow:0 1px 0 var(--line)}
+html{scroll-padding-top:var(--header-h)}
