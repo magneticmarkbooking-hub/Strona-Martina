@@ -24,6 +24,8 @@
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
     /* eslint-enable */
+    /* Bez automatycznych zdarzeń Meta (kliknięcia przycisków, metadane): wysyłamy tylko zdarzenia z tego pliku. */
+    window.fbq('set', 'autoConfig', false, PIXEL_ID);
     window.fbq('init', PIXEL_ID);
     window.fbq('track', 'PageView');
     queue.splice(0).forEach((args) => window.fbq(...args));
