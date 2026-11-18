@@ -207,7 +207,7 @@ input[type=date]::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer}
 .gallery-grid img[src*="galeria-trio-czern"]{object-position:center 30%}
 .gallery-grid img[src*="galeria-fotel"]{object-position:center center}
 .gallery-grid img[src*="galeria-mikrofon"]{object-position:center 25%}
-.gallery-grid img[src*="galeria-trio-jasne"]{object-position:center center}
+.gallery-grid img[src*="galeria-portret-bok"]{object-position:50% center}
 @media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 @media(max-width:540px){.gallery-grid{gap:8px}}
 
