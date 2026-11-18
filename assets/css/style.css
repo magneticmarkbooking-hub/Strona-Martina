@@ -243,3 +243,12 @@ html.lb-open .cc-fab,html.lb-open .to-top{visibility:hidden}
 @media(max-width:900px){:root{--header-h:76px}}
 header{position:sticky;top:0;z-index:40;box-shadow:0 1px 0 var(--line)}
 html{scroll-padding-top:var(--header-h)}
+
+/* Formularz: pole-pułapka na boty i komunikat po wysyłce */
+.form-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-status{margin:12px 0 0;font-size:.9rem;line-height:1.6}
+.form-status:empty{display:none}
+.form-status.is-ok{color:#3f5b3a}
+.form-status.is-error{color:#8a3b2e}
+.form-status a{text-decoration:underline;text-underline-offset:3px}
+#contact-form button[disabled]{opacity:.65;cursor:progress}

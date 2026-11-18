@@ -12,7 +12,7 @@ rodo.html                  skrócona klauzula informacyjna RODO
 polityka-cookies.html      polityka cookies
 favicon.svg, robots.txt
 assets/css/   style.css (wygląd strony i stopki), fonts.css, legal.css (dokumenty), consent.css (cookies, przycisk do góry)
-assets/js/    main.js (menu, formularz, opinie), gallery.js (podgląd zdjęć ze strzałkami, klawiaturą i przesuwaniem palcem), ui.js (przycisk do góry, rok), consent.js (zgoda na filmy)
+assets/js/    main.js (menu, opinie), contact.js (formularz przez Formspree), gallery.js (podgląd zdjęć ze strzałkami, klawiaturą i przesuwaniem palcem), ui.js (przycisk do góry, rok), consent.js (zgoda na filmy)
 assets/fonts/ DM Sans, Cormorant Garamond, Italiana (woff2, licencja SIL OFL 1.1, pliki OFL-*.txt)
 assets/img/   zdjęcia webp w kilku szerokościach (srcset)
 ```
@@ -25,7 +25,7 @@ assets/img/   zdjęcia webp w kilku szerokościach (srcset)
 - Przy pierwszej wizycie pasek na całą szerokość na dole: „Akceptuję wszystkie”, „Tylko niezbędne”, „Ustawienia”. W ustawieniach przełączniki Instagram i YouTube są domyślnie włączone.
 - Decyzja jest w localStorage pod kluczem `mb-consent-v3`, ważna rok. Okrągły przycisk w lewym dolnym rogu i link „Ustawienia cookies” w stopce otwierają ustawienia ponownie. Wycofanie zgody przeładowuje stronę i usuwa filmy.
 - Film na YouTube: „Nieobiecane Dni (Official Video)”, id `71Kitdyg4pE`.
-- Formularz kontaktowy otwiera program pocztowy (`mailto:`), nie wysyła danych na serwer.
+- Formularz kontaktowy wysyła zapytanie przez Formspree (`assets/js/contact.js`, `FORMSPREE_ID = xnpdvoqj`) na e-mail Martiny, z polem-pułapką `_gotcha` na boty. Pusty `FORMSPREE_ID` przełącza z powrotem na `mailto:`. Po udanej wysyłce strona emituje zdarzenie `mb:lead` (pod piksel).
 
 ## Przed publikacją
 
